@@ -119,6 +119,8 @@ class MentionsInput extends React.Component {
     this.handleCopy = this.handleCopy.bind(this)
     this.handleCut = this.handleCut.bind(this)
     this.handlePaste = this.handlePaste.bind(this)
+    // a boolean variable that indicates whether this.selectFocused is just called
+    this.selectFocusedCalled = false;
 
     this.state = {
       focusIndex: 0,
@@ -523,6 +525,15 @@ class MentionsInput extends React.Component {
 
   // Handle input element's select event
   handleSelect = ev => {
+    // this function will be called when we hit `enter` and `tab` to select a mention in the suggestion overlay.
+    // due to the current requirement, we want to keep the `@` symbol after a mention is selected. (this requirement is done by using the displayTransform prop).
+    // the requirement makes this check necessary because otherwise, the `@` symbol will make this function think that the mention hasn't been chosen, and the suggestion overlay will show up, 
+    // which is not what we want to see(the overlay should disappear after the focused mention is selected).
+    if (this.selectFocusedCalled) {
+      this.selectFocusedCalled = false;
+      return;
+    }
+
     // keep track of selection range / caret position
     this.setState({
       selectionStart: ev.target.selectionStart,
@@ -609,6 +620,7 @@ class MentionsInput extends React.Component {
       []
     )[focusIndex]
 
+    this.selectFocusedCalled = true;
     this.addMention(result, queryInfo)
 
     this.setState({
