@@ -649,6 +649,11 @@ class MentionsInput extends React.Component {
   }
 
   handleSuggestionsMouseDown = ev => {
+    // currently buttons in WVUI will be unmounted when the textarea blurs out,
+    // which we don't want to see when clicking on a mention suggest
+    // so we call preventDefault to prevent the textarea from blurring out
+    ev.preventDefault();
+    this.selectFocusedCalled = true;
     this._suggestionsMouseDown = true
   }
 
