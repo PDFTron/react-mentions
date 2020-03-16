@@ -980,7 +980,7 @@ var makeTriggerRegex = function(trigger) {
         _this.updateHighlighterScroll();
       }, 1), _this.props.onBlur(ev, clickedSuggestion);
     }), _defineProperty(_assertThisInitialized(_this), "handleSuggestionsMouseDown", function(ev) {
-      _this._suggestionsMouseDown = !0;
+      ev.preventDefault(), _this.selectFocusedCalled = !0, _this._suggestionsMouseDown = !0;
     }), _defineProperty(_assertThisInitialized(_this), "updateSuggestionsPosition", function() {
       var caretPosition = _this.state.caretPosition, _this$props5 = _this.props, suggestionsPortalHost = _this$props5.suggestionsPortalHost, allowSuggestionsAboveCursor = _this$props5.allowSuggestionsAboveCursor;
       if (caretPosition && _this.suggestionsRef) {
